@@ -32,16 +32,7 @@ int LinkedList<T>::size() const
 	/** TODO
 		Fix this method
 	*/
-	if(isEmpty())
-	{
-		std::cout >> "Linked list is empty.";
-	}
-	else
-	{
-		return(m_size);
-	}
-
-	return(0);
+	return(m_size);
 }
 
 template <typename T>
@@ -55,7 +46,7 @@ bool LinkedList<T>::search(T value) const
 	*/
 	for(int i = 0; i < m_size; i++)
 	{
-		if(temp == value)
+		if(temp -> getValue() == value)
 		{
 			return(true);
 		}
@@ -77,7 +68,7 @@ std::vector<T> LinkedList<T>::toVector() const
 	while( temp != nullptr )
 	{
 		vec.push_back(temp->getValue());
-		temp = temp->();
+		temp = temp->getNext();
 	}
 
 	return(vec);
@@ -126,29 +117,29 @@ bool LinkedList<T>::removeBack()
 	/** TODO
 		Fix this method
 	*/
-	if(m_size == 0)
+	if(m_size > 1)
 	{
-		return(false);
-	}
-	else if(m_size == 1)
-	{
-		removeFront();
-		return(true);
-	}
-	else
-	{
-		Node* temp = m_front;
-		Node* temp2 = m_front;
-		for(int i = 1; i < m_size; i++)
+		Node<T>* temp = m_front;
+		Node<T>* temp2 = nullptr;
+
+		for(int i = 0; i < m_size - 2; i++)
 		{
 			temp = temp -> getNext();
 		}
-		for(int i = 1; i < m_size; i++)
-		{
-			temp2 = temp2 -> getNext();
-		}
+		delete temp -> getNext();
+		temp -> setNext(temp2);
+		m_size--;
 	}
-
+	else if(m_size == 0)
+	{
+		std::cout << "Invalid length.";
+	}
+	else if(m_size == 1)
+	{
+		delete m_front;
+		m_front = nullptr;
+		m_size = 0;
+	}
 	return(isRemoved);
 }
 
